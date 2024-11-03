@@ -1,11 +1,11 @@
 import { View, Text } from 'react-native';
 import React from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import { useMedia } from '~/providers/MediaProvider';
 import { Image } from 'expo-image';
-
+import AntDesign from '@expo/vector-icons/AntDesign';
 const asset = () => {
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const { getAssetById } = useMedia();
 
   const asset = getAssetById(id);
@@ -14,7 +14,17 @@ const asset = () => {
   }
   return (
     <>
-      <Image source={{ uri: asset.uri }} style={{ width: '100%', height: '100%' }} />
+      <Stack.Screen
+        options={{
+          title: 'Photo',
+          headerRight: () => <AntDesign name="cloudupload" size={24} color="black" />,
+        }}
+      />
+      <Image
+        contentFit="contain"
+        source={{ uri: asset.uri }}
+        style={{ width: '100%', height: '100%' }}
+      />
     </>
   );
 };
